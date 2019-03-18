@@ -1393,6 +1393,7 @@ const rawAllCountries = [
     ['middle-east'],
     'ae',
     '971',
+    '+... .. .... ...',
   ],
   [
     'United Kingdom',
