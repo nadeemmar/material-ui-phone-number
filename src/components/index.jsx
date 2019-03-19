@@ -45,8 +45,9 @@ class MaterialUiPhoneNumber extends React.Component {
     autoFocus: PropTypes.bool,
     helperText: PropTypes.string,
     error: PropTypes.bool,
-    variant: PropTypes.bool,
+    variant: PropTypes.string,
     margin: PropTypes.string,
+    fullWidth: PropTypes.bool,
 
     inputClass: PropTypes.string,
     dropdownClass: PropTypes.string,
@@ -700,7 +701,7 @@ class MaterialUiPhoneNumber extends React.Component {
     const {
       classes, inputClass, helperText, required, disabled, autoFocus, error,
       name, label, dropdownClass, localization, disableDropdown, inputProps,
-      variant, margin
+      variant, margin, fullWidth,
     } = this.props;
 
     const inputFlagClasses = `flag ${selectedCountry.iso2}`;
@@ -773,6 +774,7 @@ class MaterialUiPhoneNumber extends React.Component {
       <TextField
         variant={variant}
         margin={margin}
+        fullWidth={fullWidth}
         placeholder={placeholder}
         value={formattedNumber}
         className={inputClass}
