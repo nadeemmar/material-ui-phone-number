@@ -195,8 +195,11 @@ class MaterialUiPhoneNumber extends React.Component {
         countryGuess.name ? countryGuess.format : undefined,
       );
 
+    const isNumberValid = true;
+
     this.state = {
       formattedNumber,
+      isNumberValid,
       placeholder: props.placeholder,
       onlyCountries,
       preferredCountries,
@@ -298,8 +301,8 @@ class MaterialUiPhoneNumber extends React.Component {
     container.scrollTop = country.offsetTop;
   }
 
-  formatNumber = (text, patternArg) => {
-    const { disableCountryCode, enableLongNumbers, autoFormat } = this.props;
+  getPattern = (patternArg) => {
+    const { disableCountryCode } = this.props;
 
     let pattern;
     if (disableCountryCode && patternArg) {
@@ -309,6 +312,14 @@ class MaterialUiPhoneNumber extends React.Component {
     } else {
       pattern = patternArg;
     }
+
+    return pattern;
+  }
+
+  formatNumber = (text, patternArg) => {
+    const { disableCountryCode, enableLongNumbers, autoFormat } = this.props;
+
+    const pattern = this.getPattern(patternArg);
 
     if (!text || text.length === 0) {
       return disableCountryCode ? '' : '+';
@@ -421,6 +432,7 @@ class MaterialUiPhoneNumber extends React.Component {
     } = this.props;
 
     let formattedNumber = disableCountryCode ? '' : '+';
+    let isNumberValid = false;
 
     if (!countryCodeEditable) {
       const updatedInput = `+${newSelectedCountry.dialCode}`;
@@ -459,6 +471,8 @@ class MaterialUiPhoneNumber extends React.Component {
       }
       // let us remove all non numerals from the input
       formattedNumber = this.formatNumber(inputNumber, newSelectedCountry.format);
+      const pattern = newSelectedCountry.format ? this.getPattern(newSelectedCountry.format) : undefined;
+      isNumberValid = newSelectedCountry.format ? pattern.length === formattedNumber.length : true;
     }
 
     let caretPosition = e.target.selectionStart;
@@ -466,6 +480,7 @@ class MaterialUiPhoneNumber extends React.Component {
 
     this.setState({
       formattedNumber,
+      isNumberValid,
       freezeSelection,
       selectedCountry: newSelectedCountry.dialCode
         ? newSelectedCountry
@@ -665,10 +680,13 @@ class MaterialUiPhoneNumber extends React.Component {
   }
 
   checkIfValid = () => {
-    const { formattedNumber } = this.state;
+    const { formattedNumber, isNumberValid } = this.state;
     const { isValid } = this.props;
 
-    return isValid(formattedNumber.replace(/\D/g, ''));
+    const isValidCode = isValid(formattedNumber.replace(/\D/g, ''));
+    
+
+    return isValidCode && isNumberValid;
   };
 
   updateFormattedNumber = (number) => {
@@ -678,23 +696,34 @@ class MaterialUiPhoneNumber extends React.Component {
     let countryGuess;
     let inputNumber = number;
     let formattedNumber = number;
+    let isNumberValid = false;
 
     // if inputNumber does not start with '+', then use default country's dialing prefix,
     // otherwise use logic for finding country based on country prefix.
     if (!inputNumber.startsWith('+')) {
       countryGuess = find(onlyCountries, { iso2: defaultCountry });
       const dialCode = countryGuess && !startsWith(inputNumber.replace(/\D/g, ''), countryGuess.dialCode) ? countryGuess.dialCode : '';
+      const format = countryGuess ? countryGuess.format : undefined;
+      const pattern = format ? this.getPattern(format) : undefined;
+
       formattedNumber = this.formatNumber(
         (disableCountryCode ? '' : dialCode) + inputNumber.replace(/\D/g, ''),
-        countryGuess ? countryGuess.format : undefined,
+        format,
       );
+
+      isNumberValid = format ? pattern.length === formattedNumber.length : true;
     } else {
       inputNumber = inputNumber.replace(/\D/g, '');
       countryGuess = this.guessSelectedCountry(inputNumber.substring(0, 6), onlyCountries, defaultCountry);
-      formattedNumber = this.formatNumber(inputNumber, countryGuess.format);
+      const format = countryGuess ? countryGuess.format : undefined;
+      const pattern = format ? this.getPattern(format) : undefined;
+      formattedNumber = this.formatNumber(inputNumber, format);
+
+      console.log('format is ', format.length, 'pattern length is', pattern, 'formattedNumber length is ', formattedNumber.length)
+      isNumberValid = format ? pattern.length === formattedNumber.length : true;
     }
 
-    this.setState({ selectedCountry: countryGuess, formattedNumber });
+    this.setState({ selectedCountry: countryGuess, formattedNumber, isNumberValid });
   };
 
   render() {
@@ -704,7 +733,7 @@ class MaterialUiPhoneNumber extends React.Component {
     const {
       classes, inputClass, helperText, required, disabled, autoFocus, error,
       name, label, dropdownClass, localization, disableDropdown, inputProps,
-      variant, margin, fullWidth, inputComponent, inputComponentProps
+      variant, margin, fullWidth, inputComponent, inputComponentProps,
     } = this.props;
 
     const inputFlagClasses = `flag ${selectedCountry.iso2}`;
