@@ -137,9 +137,11 @@ export default render(
           regions="middle-east"
           margin="dense"
           label="A Label"
-          customInput={props => (
-            <NumberFormat {...props} customInput={TextField} format="+### ## ### ####" mask="_"/>
-          )}
+          inputComponentProps={{
+            format: "+### ## ### ####",
+            mask: "_"
+          }}
+          inputComponent={NumberFormat}
         />
       </div>
     </div>
