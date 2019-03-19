@@ -1,6 +1,9 @@
 import React from "react";
 import { render } from "react-dom";
+
 import MaterialUiPhoneNumber from "./index";
+import NumberFormat from "react-number-format";
+import { TextField } from "@material-ui/core";
 
 /* eslint-disable */
 export default render(
@@ -105,11 +108,7 @@ export default render(
           autoFocus
         />
         <p>Full width</p>
-        <MaterialUiPhoneNumber
-          defaultCountry="ae"
-          regions="middle-east"
-          fullWidth
-        />
+        <MaterialUiPhoneNumber defaultCountry="ae" regions="middle-east" fullWidth />
       </div>
     </div>
     <div style={{ width: "100%" }}>
@@ -129,6 +128,18 @@ export default render(
           regions="middle-east"
           margin="dense"
           label="A Label"
+        />
+      </div>
+      <div style={{ display: "inline-block", verticalAlign: "top", marginLeft: "40px" }}>
+        <p>Custom Input</p>
+        <MaterialUiPhoneNumber
+          defaultCountry="ae"
+          regions="middle-east"
+          margin="dense"
+          label="A Label"
+          customInput={props => (
+            <NumberFormat {...props} customInput={TextField} format="+### ## ### ####" mask="_"/>
+          )}
         />
       </div>
     </div>
