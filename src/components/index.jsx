@@ -719,7 +719,6 @@ class MaterialUiPhoneNumber extends React.Component {
       const pattern = format ? this.getPattern(format) : undefined;
       formattedNumber = this.formatNumber(inputNumber, format);
 
-      console.log('format is ', format.length, 'pattern length is', pattern, 'formattedNumber length is ', formattedNumber.length)
       isNumberValid = format ? pattern.length === formattedNumber.length : true;
     }
 
