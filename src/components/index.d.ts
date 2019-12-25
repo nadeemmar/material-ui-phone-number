@@ -18,7 +18,7 @@ export interface MuiPhoneNumberProps {
     dropDownClass: string;
     InputProps: object;
     inputProps: object;
-    inputRef: (func) => void;
+    inputRef: (ref : any) => void;
   
     autoFormat: boolean;
     disableAreaCodes: boolean;
@@ -31,15 +31,15 @@ export interface MuiPhoneNumberProps {
   
     localization: object;
   
-    onChange: () => void;
-    onFocus: () => void;
-    onBlur: () => void;
-    onClick: () => void;
-    onKeyDown: () => void;
+    onChange: (newFormattedNumber: string , countryData : any) => void;
+    onFocus: (event: any, countryData : any ) => void;
+    onBlur: (event: any, countryData : any ) => void;
+    onClick: (event: any, countryData : any ) => void;
+    onKeyDown: (event: any) => void;
   
-    isValid: () => void;
-    isModernBrowser: () => void;
-    onEnterKeyPress: () => void;
+    isValid: (code : string) => boolean;
+    isModernBrowser: () => any;
+    onEnterKeyPress: (event: any) => void;
     keys: object;
   }
   declare const MaterialUiPhoneNumber =  React.ComponentType<MuiPhoneNumberProps>();
