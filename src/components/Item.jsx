@@ -1,34 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MenuItem, RootRef } from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
+import RootRef from '@material-ui/core/RootRef';
 
-export default class Item extends React.PureComponent {
-  static propTypes = {
-    name: PropTypes.string.isRequired,
-    iso2: PropTypes.string.isRequired,
-    dialCode: PropTypes.string.isRequired,
-    itemRef: PropTypes.func.isRequired,
-    localization: PropTypes.string,
-  };
-
-  static defaultProps = {
-    localization: null,
-  };
-
+class Item extends React.PureComponent {
   render() {
     const {
-      name, iso2, dialCode, localization, itemRef, ...restProps
+      name, iso2, dialCode, localization, itemRef, native, ...restProps
     } = this.props;
 
+    if (native) {
+      return (
+        <option
+          className="country"
+          data-dial-code="1"
+          data-country-code={iso2}
+          value={iso2}
+          {...restProps}
+        >
+          {localization || name}
+          {' '}
+          {`+${dialCode}`}
+        </option>
+      );
+    }
+
     return (
-      <RootRef rootRef={node => itemRef(node)}>
+      <RootRef rootRef={(node) => itemRef(node)}>
         <MenuItem
           className="country"
           data-dial-code="1"
           data-country-code={iso2}
-          onClick={() => this.handleFlagItemClick({
-            iso2, dialCode, name,
-          })}
           {...restProps}
         >
           <div className={`flag ${iso2} margin`} />
@@ -43,3 +45,19 @@ export default class Item extends React.PureComponent {
     );
   }
 }
+
+Item.propTypes = {
+  name: PropTypes.string.isRequired,
+  iso2: PropTypes.string.isRequired,
+  dialCode: PropTypes.string.isRequired,
+  itemRef: PropTypes.func.isRequired,
+  localization: PropTypes.string,
+  native: PropTypes.bool,
+};
+
+Item.defaultProps = {
+  localization: null,
+  native: false,
+};
+
+export default Item;

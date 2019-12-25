@@ -1,21 +1,9 @@
-const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.config.common');
 
-const ROOT_PATH = path.resolve(__dirname);
-
 module.exports = merge(common, {
   mode: 'production',
-  entry: {
-    'material-ui-phone-number': path.resolve(ROOT_PATH, 'src/index.js'),
-  },
-  output: {
-    path: path.resolve(ROOT_PATH, 'dist'),
-    filename: 'index.js',
-    library: 'MaterialUiPhoneNumber',
-    libraryTarget: 'umd',
-  },
   externals: [
     {
       react: {
@@ -30,9 +18,16 @@ module.exports = merge(common, {
         commonjs: 'react-dom',
         amd: 'react-dom',
       },
+      lodash: {
+        commonjs: 'lodash',
+        commonjs2: 'lodash',
+        amd: 'lodash',
+        root: '_',
+      },
     },
     '@material-ui/core',
     /@material-ui\/core\/*./,
+    'clsx',
   ],
   plugins: [
     new webpack.DefinePlugin({
