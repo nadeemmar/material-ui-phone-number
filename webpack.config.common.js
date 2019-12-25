@@ -5,7 +5,7 @@ const ROOT_PATH = path.resolve(__dirname);
 // Common configuration settings
 module.exports = {
   entry: {
-    "material-ui-phone-number": path.resolve(ROOT_PATH, "src/index.js")
+    "material-ui-phone-number": path.resolve(ROOT_PATH, "./index.js")
   },
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
