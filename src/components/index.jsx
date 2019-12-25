@@ -645,13 +645,7 @@ class MaterialUiPhoneNumber extends React.Component {
     } = this.state;
 
     const {
-<<<<<<< HEAD
-      classes, inputClass, helperText, required, disabled, autoFocus, error,
-      name, label, dropdownClass, localization, disableDropdown, inputProps,
-      variant, margin, fullWidth, inputComponent, inputComponentProps,
-=======
       classes, dropdownClass, localization, disableDropdown, native,
->>>>>>> bfaaedc65167918ca57bc381fa6e089976186369
     } = this.props;
 
     const inputFlagClasses = `flag ${selectedCountry.iso2}`;
@@ -766,21 +760,6 @@ class MaterialUiPhoneNumber extends React.Component {
       ),
     };
 
-<<<<<<< HEAD
-    const Input = inputComponent || TextField;
-    return (
-      <Input
-        variant={variant}
-        margin={margin}
-        fullWidth={fullWidth}
-        placeholder={placeholder}
-        value={formattedNumber}
-        className={inputClass}
-        required={required}
-        disabled={disabled}
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus={autoFocus}
-=======
     return dropdownProps;
   };
 
@@ -808,7 +787,6 @@ class MaterialUiPhoneNumber extends React.Component {
         placeholder={statePlaceholder}
         value={formattedNumber}
         className={inputClass}
->>>>>>> bfaaedc65167918ca57bc381fa6e089976186369
         inputRef={this.handleRefInput}
         error={error || !this.checkIfValid()}
         onChange={this.handleInput}
@@ -821,11 +799,7 @@ class MaterialUiPhoneNumber extends React.Component {
           ...dropdownProps,
           ...InputProps,
         }}
-<<<<<<< HEAD
-        {...inputComponentProps}
-=======
         {...restProps}
->>>>>>> bfaaedc65167918ca57bc381fa6e089976186369
       />
     );
   }
