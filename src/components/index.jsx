@@ -648,7 +648,7 @@ class MaterialUiPhoneNumber extends React.Component {
       classes, dropdownClass, localization, disableDropdown, native,
     } = this.props;
 
-    const inputFlagClasses = `flag ${selectedCountry.iso2}`;
+    const inputFlagClasses = `flag ${selectedCountry && selectedCountry.iso2}`;
 
     const dropdownProps = disableDropdown ? {} : {
       startAdornment: (
